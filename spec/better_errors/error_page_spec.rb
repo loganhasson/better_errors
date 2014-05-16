@@ -57,7 +57,7 @@ module BetterErrors
       end
 
       it "shows filter instance variables" do
-        BetterErrors.stub(:ignored_instance_variables).and_return([ :@inst_d ])
+        allow(BetterErrors).to receive(:ignored_instance_variables).and_return([ :@inst_d ])
         html = error_page.do_variables("index" => 0)[:html]
         html.should include("inst_c")
         html.should include(":value_for_inst_c")
@@ -67,7 +67,7 @@ module BetterErrors
     end
     
     it "doesn't die if the source file is not a real filename" do
-      exception.stub(:backtrace).and_return([
+      allow(exception).to receive(:backtrace).and_return([
         "<internal:prelude>:10:in `spawn_rack_application'"
       ])
       response.should include("Source unavailable")

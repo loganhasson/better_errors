@@ -107,7 +107,7 @@ module BetterErrors
 
       it "returns ExceptionWrapper's status_code" do
         ad_ew = double("ActionDispatch::ExceptionWrapper")
-        ad_ew.stub('new').with({}, exception ){ double("ExceptionWrapper", status_code: 404) }
+        allow(ad_ew).to receive('new').with({}, exception ){ double("ExceptionWrapper", status_code: 404) }
         stub_const('ActionDispatch::ExceptionWrapper', ad_ew)
 
         status, headers, body = app.call({})
@@ -137,7 +137,7 @@ module BetterErrors
       it "logs the exception" do
         logger = Object.new
         logger.should_receive :fatal
-        BetterErrors.stub(:logger).and_return(logger)
+        allow(BetterErrors).to receive(:logger).and_return(logger)
 
         app.call({})
       end
